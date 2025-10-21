@@ -1,0 +1,58 @@
+---
+title: "Here are some plotly plots."
+author: "Xinyin Miao"
+date: "2025-10-21"
+output: html_document
+---
+
+Interactivity is interesting.
+
+```{r setup, include=FALSE}
+library(tidyverse)
+library(p8105.datasets)
+
+library(plotly)
+```
+
+Let's load the AirBnB dataset.
+
+```{r}
+data(nyc_airbnb)
+
+nyc_airbnb = 
+  nyc_airbnb |> 
+  mutate(rating = review_scores_location / 2) |>
+  select(
+  neighbourhood_group, neighbourhood, rating, price, room_type, lat, long) |>
+  filter(
+    neighbourhood_group == "Manhattan",
+    room_type == "Entire home/apt",
+    price <= 500,
+    price >=100
+  )
+
+```
+
+Let's make a scatterplot!
+
+```{r}
+nyc_airbnb |>
+  mutate(label = str_c("Price: $", price, "\nRating: ", rating)) |> 
+  plot_ly(
+    x = ~lat, y = ~long, type = "scatter", mode = "markers",
+    color = ~price, text = ~label, alpha = 0.5)
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
